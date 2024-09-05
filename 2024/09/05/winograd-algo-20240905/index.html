@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="We must know, we will know">
-<meta property="og:type" content="website">
-<meta property="og:title" content="醉人">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="这篇文档主要介绍中国剩余定理及其证明过程。 定理描述首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。 接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中国剩余定理">
+<meta property="og:url" content="http://example.com/2024/09/05/winograd-algo-20240905/index.html">
 <meta property="og:site_name" content="醉人">
-<meta property="og:description" content="We must know, we will know">
+<meta property="og:description" content="这篇文档主要介绍中国剩余定理及其证明过程。 定理描述首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。 接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-05T13:31:27.382Z">
+<meta property="article:modified_time" content="2024-09-05T14:53:57.600Z">
 <meta property="article:author" content="csrddbb">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/archives/">
+<link rel="canonical" href="http://example.com/2024/09/05/winograd-algo-20240905/">
 
 
 <script id="page-configurations">
@@ -38,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | 醉人</title>
+  <title>中国剩余定理 | 醉人</title>
   
 
 
@@ -141,70 +143,88 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 2 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/05/winograd-algo-20240905/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/feynman.png">
+      <meta itemprop="name" content="csrddbb">
+      <meta itemprop="description" content="We must know, we will know">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="醉人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中国剩余定理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-05 21:31:27 / 修改时间：22:53:57" itemprop="dateCreated datePublished" datetime="2024-09-05T21:31:27+08:00">2024-09-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-09-05T21:31:27+08:00"
-              content="2024-09-05">
-          09-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/09/05/winograd-algo-20240905/" itemprop="url">
-            <span itemprop="name">中国剩余定理</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-09-03T23:18:56+08:00"
-              content="2024-09-03">
-          09-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/09/03/blustein-algo-20240903/" itemprop="url">
-            <span itemprop="name">Bluestein算法</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <p>这篇文档主要介绍中国剩余定理及其证明过程。</p>
+<h2 id="定理描述"><a href="#定理描述" class="headerlink" title="定理描述"></a>定理描述</h2><p>首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。</p>
+<p>接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$对模$m$的数论倒数。并非所有的整数都存在数论倒数，只有当$a$与$m$互质时，$a$对模$m$的数论倒数才存在。</p>
+<p>中国剩余定理是数论中一个关于一元线性同余方程组的定理，一元线性同余方程组问题最早可以见于中国南北朝时期的数学著作《孙子算经》，因此也被称之为孙子定理，它的数学描述如下所示：</p>
+<p>$$<br>S&#x3D;\begin{cases}<br>x \equiv a_1 \pmod{m_1}\<br>x \equiv a_2 \pmod{m_2}\<br>…\<br>x \equiv a_n \pmod{m_n}<br>\end{cases}<br>$$</p>
+<p>其中，若$m_i \ (1 \le i \le n)$两两互质，则对任意的整数$a_i \ (1 \le i \le n)$方程组$S$有解，该通解形式为：</p>
+<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i<br>$$</p>
+<p>其中，$k \in \mathbb{Z}$，$M$是$m_i$的乘积，$M_i&#x3D;M&#x2F;m_i$，$t_i$是$M_i$对$m_i$的数论倒数。</p>
+<h2 id="定理证明"><a href="#定理证明" class="headerlink" title="定理证明"></a>定理证明</h2><p>对于$i \ (1 \le i \le n)$以及$j \ (1 \le j \le n)$，$i \neq j$，$m_i$与$m_j$互质，则$m_i$与$M_i$互质。存在$t_i$使得$t_iM_i \equiv 1 \ (mod\ \ m_i)$，则$a_it_iM_i \equiv a_i \ (mod\ \ m_i)$。而对于$j \neq i$，$a_jt_jM_j \equiv 0 \ (mod\ \ m_i)$。因此有：</p>
+<p>$$<br>x&#x3D;\sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \  (mod\ \ m_i)<br>$$</p>
+<p>假设存在同余方程组存在两个解$x_1$和$x_2$，则$x_1-x_2  \equiv 0 \ (mod\ \ m_i)$，因为$m_i$之间彼此互质，且$M$可以整除$x_1-x_2$，因此$x_1$和$x_2$之间相差$M$的整数倍。则全部的通解形式为：</p>
+<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \ (mod\ \ m_i)<br>$$</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/03/blustein-algo-20240903/" rel="prev" title="Bluestein算法">
+      <i class="fa fa-chevron-left"></i> Bluestein算法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -257,6 +277,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E7%90%86%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">定理描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E7%90%86%E8%AF%81%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">定理证明</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

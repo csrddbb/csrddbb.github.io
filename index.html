@@ -147,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/05/winograd-algo-20240905/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/06/winograd-conv-algo-20240906/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/feynman.png">
@@ -161,7 +161,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/09/05/winograd-algo-20240905/" class="post-title-link" itemprop="url">中国剩余定理</a>
+            <a href="/2024/09/06/winograd-conv-algo-20240906/" class="post-title-link" itemprop="url">Winograd算法</a>
         </h2>
 
         <div class="post-meta">
@@ -170,10 +170,104 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-09-05 21:31:27 / 修改时间：22:53:57" itemprop="dateCreated datePublished" datetime="2024-09-05T21:31:27+08:00">2024-09-05</time>
+              <time title="创建时间：2024-09-06 21:52:41" itemprop="dateCreated datePublished" datetime="2024-09-06T21:52:41+08:00">2024-09-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-21 23:37:16" itemprop="dateModified" datetime="2024-10-21T23:37:16+08:00">2024-10-21</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文档主要介绍winograd卷积算法的数学原理。</p>
+<h2 id="前置定理"><a href="#前置定理" class="headerlink" title="前置定理"></a>前置定理</h2><h3 id="辗转相除法"><a href="#辗转相除法" class="headerlink" title="辗转相除法"></a>辗转相除法</h3><p>存在一个一般的定理：如果$a$是任意一个整数而$b$是任意一个大于0的整数，那么总是可以找到一个整数$q$，使得$a&#x3D;b \times q + r$，其中$r$是满足$0 \leq r \lt b$的整数。将$gcd(a, b)$记为$a$和$b$的最大公约数，辗转相除法可以表示为：</p>
+<p>$$<br>gcd(a,b)&#x3D;gcd(b,r)<br>$$</p>
+<p>证明如下：假设存在$u$可以同时整除$a$和$b$，那么$u$同时也可以整除r，因为$r&#x3D;a-b \times q$。同理，假设存在$v$可以同时整除$b$和$r$，那么$v$也可以整除$a$。$a$和$b$的每一个公因子都是$b$和$r$的一个公因子，反之亦然，因此$a$和$b$的最大公因子与$b$和$r$的最大公因子相同。</p>
+<h3 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h3><p>贝祖定理：若a和b是整数，则存在整数$x$和$y$使得$ax+by&#x3D;gcd(a,b)$，且$gcd(a,b)$是$ax+by$集合中的最小正整数（若$a \neq 0$或$b \neq 0$）。</p>
+<p>扩展欧几里得算法可以在求得$a$与$b$的最大公约数时，求出$x$和$y$使其满足贝祖等式$ax+by&#x3D;gcd(a,b)$。证明过程和具体的计算方式如下：</p>
+<p>设$a&#x3D;bq_1+r_1$，则$r_1&#x3D;a-bq_1$，此时$x&#x3D;1, y&#x3D;-q_1$；当$i&gt;1$时，$r_2&#x3D;b-r_1q_2$，即$r_2&#x3D;b-(a-bq_1)q_2&#x3D;-q_2a+(1-q_1q_2)b$；显然，这一过程通过一串余数$r_1,r_2,…r_n$可以重复下去，直到获得$r_n&#x3D;ax+by&#x3D;gcd(a,b)$，此时$gcd(a,b)$是满足条件的最小正整数。如果$a$和$b$互质，那么显然$ax+by&#x3D;gcd(a,b)&#x3D;1$。</p>
+<p>通过扩展欧几里得算法，我们可以知道怎么求解一个数的数论倒数，也称逆元。</p>
+<h3 id="多项式除法"><a href="#多项式除法" class="headerlink" title="多项式除法"></a>多项式除法</h3><p>多项式除法是代数中的一个基本操作，类似于整数的除法。给定两个多项式，我们希望将一个多项式（被除数）除以另一个多项式（除数），并得到商和余数。这个过程可以通过长除法来完成。具体过程如下：</p>
+<ol>
+<li><p>排列：将被除数和除数按照降幂排列；</p>
+</li>
+<li><p>除法：将被除数的首项除以除数的首项，得到商的第一项；</p>
+</li>
+<li><p>乘法：将除数乘以商的第一项，将结果写在被除数的下方；</p>
+</li>
+<li><p>减法：将上一步的结果从被除数中减去，得到新的多项式；</p>
+</li>
+<li><p>重复：用新的多项式重复上述步骤，直到新的被除数的度数（最高次项的指数）小于除数的度数；</p>
+</li>
+<li><p>余数：最后的多项式就是余数</p>
+</li>
+</ol>
+<p>通过以上计算过程，我们可以得出多项式形式的中国剩余定理。</p>
+<h2 id="Winograd卷积"><a href="#Winograd卷积" class="headerlink" title="Winograd卷积"></a>Winograd卷积</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/05/chinese-remainder-algo-20240905/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/feynman.png">
+      <meta itemprop="name" content="csrddbb">
+      <meta itemprop="description" content="We must know, we will know">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="醉人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/05/chinese-remainder-algo-20240905/" class="post-title-link" itemprop="url">中国剩余定理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-09-05 21:31:27" itemprop="dateCreated datePublished" datetime="2024-09-05T21:31:27+08:00">2024-09-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-05 22:59:45" itemprop="dateModified" datetime="2024-12-05T22:59:45+08:00">2024-12-05</time>
+              </span>
 
           
 
@@ -195,9 +289,9 @@
 <p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i<br>$$</p>
 <p>其中，$k \in \mathbb{Z}$，$M$是$m_i$的乘积，$M_i&#x3D;M&#x2F;m_i$，$t_i$是$M_i$对$m_i$的数论倒数。</p>
 <h2 id="定理证明"><a href="#定理证明" class="headerlink" title="定理证明"></a>定理证明</h2><p>对于$i \ (1 \le i \le n)$以及$j \ (1 \le j \le n)$，$i \neq j$，$m_i$与$m_j$互质，则$m_i$与$M_i$互质。存在$t_i$使得$t_iM_i \equiv 1 \ (mod\ \ m_i)$，则$a_it_iM_i \equiv a_i \ (mod\ \ m_i)$。而对于$j \neq i$，$a_jt_jM_j \equiv 0 \ (mod\ \ m_i)$。因此有：</p>
-<p>$$<br>x&#x3D;\sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \  (mod\ \ m_i)<br>$$</p>
+<p>$$<br>x&#x3D;\sum_{i&#x3D;1}^{n}a_it_iM_i  (mod\ \ m_i)<br>$$</p>
 <p>假设存在同余方程组存在两个解$x_1$和$x_2$，则$x_1-x_2  \equiv 0 \ (mod\ \ m_i)$，因为$m_i$之间彼此互质，且$M$可以整除$x_1-x_2$，因此$x_1$和$x_2$之间相差$M$的整数倍。则全部的通解形式为：</p>
-<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \ (mod\ \ m_i)<br>$$</p>
+<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i \ (mod\ \ m_i)<br>$$</p>
 
       
     </div>
@@ -371,7 +465,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

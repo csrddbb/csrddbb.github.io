@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="这篇文档主要介绍中国剩余定理及其证明过程。 定理描述首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。 接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$">
+  <meta name="description" content="这篇文档主要介绍winograd卷积算法的数学原理。 前置定理辗转相除法存在一个一般的定理：如果$a$是任意一个整数而$b$是任意一个大于0的整数，那么总是可以找到一个整数$q$，使得$a&#x3D;b \times q + r$，其中$r$是满足$0 \leq r \lt b$的整数。将$gcd(a, b)$记为$a$和$b$的最大公约数，辗转相除法可以表示为： $$gcd(a,b)&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="中国剩余定理">
-<meta property="og:url" content="http://example.com/2024/09/05/winograd-algo-20240905/index.html">
+<meta property="og:title" content="Winograd算法">
+<meta property="og:url" content="http://example.com/2024/09/06/winograd-conv-algo-20240906/index.html">
 <meta property="og:site_name" content="醉人">
-<meta property="og:description" content="这篇文档主要介绍中国剩余定理及其证明过程。 定理描述首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。 接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$">
+<meta property="og:description" content="这篇文档主要介绍winograd卷积算法的数学原理。 前置定理辗转相除法存在一个一般的定理：如果$a$是任意一个整数而$b$是任意一个大于0的整数，那么总是可以找到一个整数$q$，使得$a&#x3D;b \times q + r$，其中$r$是满足$0 \leq r \lt b$的整数。将$gcd(a, b)$记为$a$和$b$的最大公约数，辗转相除法可以表示为： $$gcd(a,b)&#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-05T13:31:27.382Z">
-<meta property="article:modified_time" content="2024-09-05T14:53:57.600Z">
+<meta property="article:published_time" content="2024-09-06T13:52:41.142Z">
+<meta property="article:modified_time" content="2024-10-21T15:37:16.522Z">
 <meta property="article:author" content="csrddbb">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2024/09/05/winograd-algo-20240905/">
+<link rel="canonical" href="http://example.com/2024/09/06/winograd-conv-algo-20240906/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>中国剩余定理 | 醉人</title>
+  <title>Winograd算法 | 醉人</title>
   
 
 
@@ -150,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/05/winograd-algo-20240905/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/06/winograd-conv-algo-20240906/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/feynman.png">
@@ -163,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          中国剩余定理
+          Winograd算法
         </h1>
 
         <div class="post-meta">
@@ -172,10 +172,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-09-05 21:31:27 / 修改时间：22:53:57" itemprop="dateCreated datePublished" datetime="2024-09-05T21:31:27+08:00">2024-09-05</time>
+              <time title="创建时间：2024-09-06 21:52:41" itemprop="dateCreated datePublished" datetime="2024-09-06T21:52:41+08:00">2024-09-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-10-21 23:37:16" itemprop="dateModified" datetime="2024-10-21T23:37:16+08:00">2024-10-21</time>
+              </span>
 
           
 
@@ -188,19 +194,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>这篇文档主要介绍中国剩余定理及其证明过程。</p>
-<h2 id="定理描述"><a href="#定理描述" class="headerlink" title="定理描述"></a>定理描述</h2><p>首先介绍同余方程：如果两个整数a和b被正整数m所除的余数相同，则称a和b对模m同余，记作$a \equiv b \ (mod\ \ m)$。同余方程组是由多个同余方程组成的方程组。</p>
-<p>接着再介绍数论倒数：给定两个整数$a$和$m$，如果存在一个整数$b$，使得$a \times b \equiv 1 \ (mod \ \ m)$，则称$b$是$a$对模$m$的数论倒数。并非所有的整数都存在数论倒数，只有当$a$与$m$互质时，$a$对模$m$的数论倒数才存在。</p>
-<p>中国剩余定理是数论中一个关于一元线性同余方程组的定理，一元线性同余方程组问题最早可以见于中国南北朝时期的数学著作《孙子算经》，因此也被称之为孙子定理，它的数学描述如下所示：</p>
-<p>$$<br>S&#x3D;\begin{cases}<br>x \equiv a_1 \pmod{m_1}\<br>x \equiv a_2 \pmod{m_2}\<br>…\<br>x \equiv a_n \pmod{m_n}<br>\end{cases}<br>$$</p>
-<p>其中，若$m_i \ (1 \le i \le n)$两两互质，则对任意的整数$a_i \ (1 \le i \le n)$方程组$S$有解，该通解形式为：</p>
-<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i<br>$$</p>
-<p>其中，$k \in \mathbb{Z}$，$M$是$m_i$的乘积，$M_i&#x3D;M&#x2F;m_i$，$t_i$是$M_i$对$m_i$的数论倒数。</p>
-<h2 id="定理证明"><a href="#定理证明" class="headerlink" title="定理证明"></a>定理证明</h2><p>对于$i \ (1 \le i \le n)$以及$j \ (1 \le j \le n)$，$i \neq j$，$m_i$与$m_j$互质，则$m_i$与$M_i$互质。存在$t_i$使得$t_iM_i \equiv 1 \ (mod\ \ m_i)$，则$a_it_iM_i \equiv a_i \ (mod\ \ m_i)$。而对于$j \neq i$，$a_jt_jM_j \equiv 0 \ (mod\ \ m_i)$。因此有：</p>
-<p>$$<br>x&#x3D;\sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \  (mod\ \ m_i)<br>$$</p>
-<p>假设存在同余方程组存在两个解$x_1$和$x_2$，则$x_1-x_2  \equiv 0 \ (mod\ \ m_i)$，因为$m_i$之间彼此互质，且$M$可以整除$x_1-x_2$，因此$x_1$和$x_2$之间相差$M$的整数倍。则全部的通解形式为：</p>
-<p>$$<br>x&#x3D;kM + \sum_{i&#x3D;1}^{n}a_it_iM_i \equiv a_i \ (mod\ \ m_i)<br>$$</p>
-
+        <p>这篇文档主要介绍winograd卷积算法的数学原理。</p>
+<h2 id="前置定理"><a href="#前置定理" class="headerlink" title="前置定理"></a>前置定理</h2><h3 id="辗转相除法"><a href="#辗转相除法" class="headerlink" title="辗转相除法"></a>辗转相除法</h3><p>存在一个一般的定理：如果$a$是任意一个整数而$b$是任意一个大于0的整数，那么总是可以找到一个整数$q$，使得$a&#x3D;b \times q + r$，其中$r$是满足$0 \leq r \lt b$的整数。将$gcd(a, b)$记为$a$和$b$的最大公约数，辗转相除法可以表示为：</p>
+<p>$$<br>gcd(a,b)&#x3D;gcd(b,r)<br>$$</p>
+<p>证明如下：假设存在$u$可以同时整除$a$和$b$，那么$u$同时也可以整除r，因为$r&#x3D;a-b \times q$。同理，假设存在$v$可以同时整除$b$和$r$，那么$v$也可以整除$a$。$a$和$b$的每一个公因子都是$b$和$r$的一个公因子，反之亦然，因此$a$和$b$的最大公因子与$b$和$r$的最大公因子相同。</p>
+<h3 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h3><p>贝祖定理：若a和b是整数，则存在整数$x$和$y$使得$ax+by&#x3D;gcd(a,b)$，且$gcd(a,b)$是$ax+by$集合中的最小正整数（若$a \neq 0$或$b \neq 0$）。</p>
+<p>扩展欧几里得算法可以在求得$a$与$b$的最大公约数时，求出$x$和$y$使其满足贝祖等式$ax+by&#x3D;gcd(a,b)$。证明过程和具体的计算方式如下：</p>
+<p>设$a&#x3D;bq_1+r_1$，则$r_1&#x3D;a-bq_1$，此时$x&#x3D;1, y&#x3D;-q_1$；当$i&gt;1$时，$r_2&#x3D;b-r_1q_2$，即$r_2&#x3D;b-(a-bq_1)q_2&#x3D;-q_2a+(1-q_1q_2)b$；显然，这一过程通过一串余数$r_1,r_2,…r_n$可以重复下去，直到获得$r_n&#x3D;ax+by&#x3D;gcd(a,b)$，此时$gcd(a,b)$是满足条件的最小正整数。如果$a$和$b$互质，那么显然$ax+by&#x3D;gcd(a,b)&#x3D;1$。</p>
+<p>通过扩展欧几里得算法，我们可以知道怎么求解一个数的数论倒数，也称逆元。</p>
+<h3 id="多项式除法"><a href="#多项式除法" class="headerlink" title="多项式除法"></a>多项式除法</h3><p>多项式除法是代数中的一个基本操作，类似于整数的除法。给定两个多项式，我们希望将一个多项式（被除数）除以另一个多项式（除数），并得到商和余数。这个过程可以通过长除法来完成。具体过程如下：</p>
+<ol>
+<li><p>排列：将被除数和除数按照降幂排列；</p>
+</li>
+<li><p>除法：将被除数的首项除以除数的首项，得到商的第一项；</p>
+</li>
+<li><p>乘法：将除数乘以商的第一项，将结果写在被除数的下方；</p>
+</li>
+<li><p>减法：将上一步的结果从被除数中减去，得到新的多项式；</p>
+</li>
+<li><p>重复：用新的多项式重复上述步骤，直到新的被除数的度数（最高次项的指数）小于除数的度数；</p>
+</li>
+<li><p>余数：最后的多项式就是余数</p>
+</li>
+</ol>
+<p>通过以上计算过程，我们可以得出多项式形式的中国剩余定理。</p>
+<h2 id="Winograd卷积"><a href="#Winograd卷积" class="headerlink" title="Winograd卷积"></a>Winograd卷积</h2>
     </div>
 
     
@@ -215,8 +233,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/09/03/blustein-algo-20240903/" rel="prev" title="Bluestein算法">
-      <i class="fa fa-chevron-left"></i> Bluestein算法
+    <a href="/2024/09/05/chinese-remainder-algo-20240905/" rel="prev" title="中国剩余定理">
+      <i class="fa fa-chevron-left"></i> 中国剩余定理
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -277,7 +295,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E7%90%86%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">定理描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E7%90%86%E8%AF%81%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">定理证明</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E5%AE%9A%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">前置定理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%97%E8%BD%AC%E7%9B%B8%E9%99%A4%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">辗转相除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">扩展欧几里得算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%99%A4%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">多项式除法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Winograd%E5%8D%B7%E7%A7%AF"><span class="nav-number">2.</span> <span class="nav-text">Winograd卷积</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -293,7 +311,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
